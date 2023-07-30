@@ -5,7 +5,7 @@ import MainNav from "./main-nav";
 
 const Navbar = () => {
   return (
-    <Box marginBottom={2} paddingX="auto">
+    <Box paddingX="auto">
       <AppBar position="static" sx={{ backgroundColor: "black" }}>
         <CssBaseline />
         <Container>
