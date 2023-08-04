@@ -5,9 +5,15 @@ import MainNav from "./main-nav";
 
 const Navbar = () => {
   return (
-    <Box paddingX="auto">
-      <AppBar position="static" sx={{ backgroundColor: "black" }}>
-        <CssBaseline />
+    <Box width="100%">
+      <CssBaseline />
+      <AppBar
+        color="inherit"
+        sx={{
+          bgcolor: "black",
+          boxShadow: 7,
+        }}
+      >
         <Container>
           <Toolbar disableGutters>
             <Logo />

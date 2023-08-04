@@ -6,6 +6,7 @@ import { Box, Button, Typography } from "@mui/material";
 
 import MobileMenu from "./mobile-menu";
 import { useIsMounted } from "@/hooks/use-is-mounted";
+import { theme } from "@/theme";
 
 const MainNav = () => {
   const pathname = usePathname();
@@ -41,18 +42,23 @@ const MainNav = () => {
       justifyContent="space-between"
     >
       <Box sx={{ display: { xs: "none", md: "flex" } }}>
-        {pages.map(({ label, active, href }, i) => (
+        {pages.map(({ label, href }, i) => (
           <Button
             key={i}
             variant="text"
-            sx={{ my: 2, mx: 1, color: "white", display: "block" }}
+            sx={{
+              my: 2,
+              mx: 1,
+              display: "block",
+              ":hover": { backgroundColor: "unset" },
+            }}
             onClick={() => router.push(href)}
             disableRipple
           >
             <Typography
               fontSize={14}
-              color={active ? "#bdbdbd" : "white"}
-              sx={{ ":hover": { color: "#bdbdbd" } }}
+              color="white"
+              sx={{ ":hover": { color: theme.palette.neutral.main } }}
               style={{ transition: "all 0.2s ease" }}
             >
               {label}
@@ -68,23 +74,6 @@ const MainNav = () => {
         >
           {userId ? (
             <>
-              <Button
-                variant="text"
-                sx={{ mr: 2, mx: 1, color: "white", display: "block" }}
-                // onClick={() => router.push("/")}
-                disableRipple
-              >
-                <Typography
-                  fontSize={14}
-                  fontFamily="monospace"
-                  color={"#bdbdbd"}
-                  sx={{ ":hover": { textDecoration: "underline" } }}
-                  style={{ transition: "all 0.2s ease" }}
-                  textTransform="none"
-                >
-                  Your Links
-                </Typography>
-              </Button>
               <UserButton afterSignOutUrl="/" />
             </>
           ) : (

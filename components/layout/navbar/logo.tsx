@@ -4,7 +4,9 @@ import { Link } from "@mui/icons-material";
 const Logo = () => {
   return (
     <Box display="flex" mr={2}>
-      <Link sx={{ mr: "0.3rem", fontSize: 35, rotate: "90deg" }} />
+      <Link
+        sx={{ mr: "0.3rem", fontSize: 35, color: "white", rotate: "90deg" }}
+      />
       <Typography
         variant="h6"
         noWrap
@@ -15,7 +17,7 @@ const Logo = () => {
           display: { md: "flex" },
           fontWeight: 700,
           letterSpacing: ".15rem",
-          color: "inherit",
+          color: "white",
           textDecoration: "none",
         }}
       >

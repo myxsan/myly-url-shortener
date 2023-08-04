@@ -1,7 +1,8 @@
-import Navbar from "@/components/layout/navbar";
 import "./globals.css";
 import { Urbanist } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "@/theme";
 
 const font = Urbanist({ subsets: ["latin"] });
 
@@ -17,14 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body
-          className={font.className}
-          style={{ backgroundColor: "#191919", color: "white" }}
-        >
-          {children}
-        </body>
-      </html>
+      <ThemeProvider theme={theme}>
+        <html lang="en">
+          <body className={font.className}>{children}</body>
+        </html>
+      </ThemeProvider>
     </ClerkProvider>
   );
 }
