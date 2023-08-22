@@ -1,19 +1,27 @@
 import { AddLink } from "@mui/icons-material";
 import { Stack, Box, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
 
 interface FormProps {
-  onSubmit: () => {};
-  loading?: boolean;
+  onSubmit: (url: string) => void;
+  loading: boolean;
 }
 
-const GeneratorForm: React.FC<FormProps> = ({
-  onSubmit: onSubmit,
-  loading,
-}) => {
+const GeneratorForm: React.FC<FormProps> = ({ onSubmit, loading }) => {
+  const [url, setUrl] = useState<string>("");
+
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (!url) return;
     event.preventDefault();
-    onSubmit();
+    onSubmit(url);
+    setUrl("");
+  };
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setUrl(event.target.value);
   };
 
   return (
@@ -31,11 +39,13 @@ const GeneratorForm: React.FC<FormProps> = ({
               id="outlined-required"
               label="Enter your link"
               size="small"
+              value={url}
+              onChange={handleChange}
               fullWidth
             />
           </Box>
           <LoadingButton
-            loading={false}
+            loading={loading}
             loadingPosition="start"
             type="submit"
             variant="contained"
