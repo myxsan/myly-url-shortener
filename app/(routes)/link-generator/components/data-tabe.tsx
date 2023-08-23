@@ -1,17 +1,18 @@
 "use client";
 
 import { Link } from "@/stores/links";
-import { Link as LinkButton } from "@mui/icons-material";
-import { Box, Button, Typography, styled } from "@mui/material";
+import { Delete, Link as LinkButton } from "@mui/icons-material";
+import { Box, Button, IconButton, Typography, styled } from "@mui/material";
 import { DataGrid as MuiDataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 
 interface DataTableProps {
   data: Link[];
   loading: boolean;
+  deleteLink: (id: number) => void;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ data, loading }) => {
+const DataTable: React.FC<DataTableProps> = ({ data, loading, deleteLink }) => {
   const DataGrid = styled(MuiDataGrid)(() => ({
     "& .MuiDataGrid-columnHeaders": { display: "none" },
     "& .MuiDataGrid-virtualScroller": { marginTop: "0!important" },
@@ -29,7 +30,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, loading }) => {
     },
     {
       field: "router",
-      width: 200,
+      width: 150,
       headerName: "Short Link",
       renderCell: (params) => {
         return (
@@ -47,6 +48,20 @@ const DataTable: React.FC<DataTableProps> = ({ data, loading }) => {
         );
       },
     },
+    {
+      field: "delete",
+      width: 70,
+      headerName: "",
+      type: "number",
+      //params have to be the id
+      renderCell: (params) => {
+        return (
+          <IconButton color="warning" onClick={() => deleteLink(params.value)}>
+            <Delete />
+          </IconButton>
+        );
+      },
+    },
   ];
 
   useEffect(() => {
@@ -56,6 +71,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, loading }) => {
         id: data.indexOf(item) + 1,
         src: item.src,
         router: item.routerLink,
+        delete: item.id,
       }))
     );
   }, [data, loading]);

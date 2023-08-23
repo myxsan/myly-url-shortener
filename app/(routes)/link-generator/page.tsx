@@ -13,7 +13,7 @@ const LinkGeneratorPage = () => {
   const [postLoading, setPostLoading] = useState<boolean>(false);
   const [getLoading, setGetLoading] = useState<boolean>(false);
   const { userId } = useAuth();
-  const { addLink, links, setLinks } = linkState();
+  const { addLink, links, setLinks, removeLink } = linkState();
 
   const onSubmit = async (url: string) => {
     setPostLoading(true);
@@ -51,7 +51,7 @@ const LinkGeneratorPage = () => {
       const links = (await axios(
         `${process.env.NEXT_PUBLIC_API_URL}/api/links?filters[creatorId][$eq]=${userId}&sort=updatedAt:desc`
       ).then((res) =>
-        res.data.data.map((link: any) => link.attributes)
+        res.data.data.map((link: any) => ({ id: link.id, ...link.attributes }))
       )) as Link[];
 
       console.log(links);
@@ -63,6 +63,15 @@ const LinkGeneratorPage = () => {
     }
   };
 
+  const deleteLink = async (id: number) => {
+    try {
+      removeLink(id);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/links/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getLinks(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,7 +80,7 @@ const LinkGeneratorPage = () => {
   return (
     <Box display="flex" flexDirection="column">
       <GeneratorForm onSubmit={onSubmit} loading={postLoading} />
-      <DataTable data={links} loading={getLoading} />
+      <DataTable data={links} deleteLink={deleteLink} loading={getLoading} />
     </Box>
   );
 };
