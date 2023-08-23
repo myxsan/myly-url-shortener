@@ -1,5 +1,6 @@
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
+import { ToasterProvider } from "@/providers/toast-provider";
 import { Box } from "@mui/material";
 
 export default function RootLayout({
@@ -9,6 +10,7 @@ export default function RootLayout({
 }) {
   return (
     <>
+      <ToasterProvider />
       <Box display="flex" flexGrow={1}>
         <Box width="100%" zIndex={100} position="fixed" top={0}>
           <Navbar />

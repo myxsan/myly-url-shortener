@@ -8,10 +8,12 @@ import { Box } from "@mui/material";
 import axios from "axios";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
+import isUrl from "is-url";
+import { toast } from "react-hot-toast";
 
 const LinkGeneratorPage = () => {
   const [postLoading, setPostLoading] = useState<boolean>(false);
-  const [getLoading, setGetLoading] = useState<boolean>(false);
+  const [fetchLoading, setFetchLoading] = useState<boolean>(false);
   const { userId } = useAuth();
   const { addLink, links, setLinks, removeLink } = linkState();
 
@@ -20,6 +22,12 @@ const LinkGeneratorPage = () => {
     try {
       if (!userId) {
         throw new Error("Unauthorized");
+      }
+      console.log(isUrl(url));
+
+      if (!isUrl(url)) {
+        toast.error("Please enter a valid url");
+        throw new Error("Invalid URL");
       }
 
       const linkKey: string = nanoid(11);
@@ -37,6 +45,7 @@ const LinkGeneratorPage = () => {
       });
 
       addLink(newLink);
+      toast.success("Generated link successfully");
     } catch (error) {
       console.log("NEW_LINK_SUBMIT_ERROR: ", error);
     } finally {
@@ -44,8 +53,8 @@ const LinkGeneratorPage = () => {
     }
   };
 
-  const getLinks = async (page: number) => {
-    setGetLoading(true);
+  const getLinks = async () => {
+    setFetchLoading(true);
 
     try {
       const links = (await axios(
@@ -59,7 +68,7 @@ const LinkGeneratorPage = () => {
     } catch (error) {
       console.log("GET_LINKS_ERROR: ", error);
     } finally {
-      setGetLoading(false);
+      setFetchLoading(false);
     }
   };
 
@@ -67,20 +76,21 @@ const LinkGeneratorPage = () => {
     try {
       removeLink(id);
       await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/links/${id}`);
+      toast.success("Deleted link successfully");
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getLinks(1);
+    getLinks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Box display="flex" flexDirection="column">
       <GeneratorForm onSubmit={onSubmit} loading={postLoading} />
-      <DataTable data={links} deleteLink={deleteLink} loading={getLoading} />
+      <DataTable data={links} deleteLink={deleteLink} loading={fetchLoading} />
     </Box>
   );
 };

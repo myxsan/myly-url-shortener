@@ -22,11 +22,16 @@
     "axios": "^1.4.0",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
+    "is-url": "^1.2.4",
     "nanoid": "^4.0.2",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
     "typescript": "5.1.6",
     "zustand": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/is-url": "^1.2.30"
   }
 }
