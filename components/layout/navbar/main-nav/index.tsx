@@ -16,19 +16,14 @@ const MainNav = () => {
 
   const pages = [
     {
-      label: "Link Generator",
-      href: "/link-generator",
+      label: "Short Link",
+      href: "/sl",
       active: pathname.includes("link-genrator"),
     },
     {
-      label: "QR Generator",
-      href: "/qr-generator",
+      label: "QR",
+      href: "/qr",
       active: pathname.includes("qr-genrator"),
-    },
-    {
-      label: "One Link",
-      href: "/one-link",
-      active: pathname.includes("one-link"),
     },
   ];
 
