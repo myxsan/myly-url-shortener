@@ -18,12 +18,12 @@ const MainNav = () => {
     {
       label: "Short Link",
       href: "/sl",
-      active: pathname.includes("link-genrator"),
+      active: pathname.includes("sl"),
     },
     {
-      label: "QR",
-      href: "/qr",
-      active: pathname.includes("qr-genrator"),
+      label: "One Link",
+      href: "/ol",
+      active: pathname.includes("ol"),
     },
   ];
 
@@ -45,7 +45,6 @@ const MainNav = () => {
               my: 2,
               mx: 1,
               display: "block",
-              ":hover": { backgroundColor: "unset" },
             }}
             onClick={() => router.push(href)}
             disableRipple

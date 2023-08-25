@@ -1,8 +1,8 @@
 "use client";
 
-import DataTable from "@/app/(routes)/link-generator/components/data-tabe";
+import DataTable from "./components/data-tabe";
 import GeneratorForm from "./components/generator-form";
-import { Link, linkState } from "@/stores/links";
+import { Link, linkState } from "@/stores/link";
 import { useAuth } from "@clerk/nextjs";
 import { Box } from "@mui/material";
 import axios from "axios";
@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import isUrl from "is-url";
 import { toast } from "react-hot-toast";
 
-const LinkGeneratorPage = () => {
+const ShortLinkPage = () => {
   const [postLoading, setPostLoading] = useState<boolean>(false);
   const [fetchLoading, setFetchLoading] = useState<boolean>(false);
   const { userId } = useAuth();
@@ -95,4 +95,4 @@ const LinkGeneratorPage = () => {
   );
 };
 
-export default LinkGeneratorPage;
+export default ShortLinkPage;
