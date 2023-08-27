@@ -1,16 +1,25 @@
 "use client";
 
-import { Link } from "@/stores/link";
+import { Link as LinkType } from "@/stores/link";
 import { ContentCopy, Delete, QrCode } from "@mui/icons-material";
-import { Box, Button, IconButton, Modal, Stack, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+  styled,
+} from "@mui/material";
 import { DataGrid as MuiDataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import truncate from "truncate";
 import QRCode from "qrcode.react";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 interface DataTableProps {
-  data: Link[];
+  data: LinkType[];
   loading: boolean;
   deleteLink: (id: number) => void;
 }
@@ -56,6 +65,18 @@ const DataTable: React.FC<DataTableProps> = ({ data, loading, deleteLink }) => {
     {
       field: "src",
       flex: 1,
+      renderCell: (params) => {
+        const source = truncate(
+          (params.value as string).split("https://www.")[1],
+          40
+        );
+
+        return (
+          <Link href={params.value}>
+            <Typography>{source}</Typography>
+          </Link>
+        );
+      },
     },
     {
       field: "routerLink",
@@ -105,12 +126,10 @@ const DataTable: React.FC<DataTableProps> = ({ data, loading, deleteLink }) => {
 
   useEffect(() => {
     if (loading) return;
-    const test = "asdasfsa";
-    console.log(truncate(test, 2));
     setRows(
       data.map((item) => ({
         id: data.indexOf(item) + 1,
-        src: truncate(`${item.src}`, 5),
+        src: item.src,
         routerLink: item.routerLink,
         qrCode: item.routerLink,
         delete: item.id,
